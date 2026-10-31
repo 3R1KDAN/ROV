@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel del robot</title>
+</head>
+
+<body>
+  <header>
+    <label>WebSocket del ESP32 <input id="ws" value="ws://192.168.4.1:81"></label>
+    <label>Cámara 1 <input id="c1" placeholder="http://192.168.4.2:81/stream"></label>
+    <label>Cámara 2 <input id="c2" placeholder="http://192.168.4.3:81/stream"></label>
+    <button id="go">Conectar</button>
+    <span id="pConn" class="pill bad">Desconectado</span>
+    <button id="estop">PARO (Espacio)</button>
+  </header>
+
+  <main>
+    <div class="cameras">
+      <div class="cam"><img id="i1" alt="Cámara 1">
+        <div class="off" id="o1">Sin señal</div><span class="tag">Cámara 1</span>
+      </div>
+      <div class="cam"><img id="i2" alt="Cámara 2">
+        <div class="off" id="o2">Sin señal</div><span class="tag">Cámara 2</span>
+      </div>
+      <section style="grid-column:1/-1">
+        <h2>Registro de eventos</h2>
+        <div id="log"></div>
+      </section>
+    </div>
+
+    <div class="bottom">
+      <section>
+        <h2>Enlace y energía</h2>
+        <dl>
+          <dt>Latencia</dt>
+          <dd id="lat">—</dd>
+          <dt>Último mensaje del robot</dt>
+          <dd id="rx">—</dd>
+          <dt>Señal WiFi (RSSI)</dt>
+          <dd id="rssi">—</dd>
+          <dt>Batería</dt>
+          <dd id="bat">—</dd>
+          <dt>Corriente motores</dt>
+          <dd id="cur">—</dd>
+        </dl>
+      </section>
+      <section>
+        <h2>Estado del robot</h2>
+        <dl>
+          <dt>Modo</dt>
+          <dd id="mode">—</dd>
+          <dt>Eje 1 del brazo</dt>
+          <dd id="a1">—</dd>
+          <dt>Eje 2 del brazo</dt>
+          <dd id="a2">—</dd>
+          <dt>Pinza (reportada)</dt>
+          <dd id="grip">—</dd>
+          <dt>Enviado: avance / giro</dt>
+          <dd id="cmdD">0 / 0</dd>
+          <dt>Enviado: brazo</dt>
+          <dd id="cmdA">0 / 0</dd>
+        </dl>
+      </section>
+      <section>
+        <h2>Teclas</h2>
+        <div class="keys">
+          <div class="pad">
+            <div class="k sp"></div>
+            <div class="k" data-c="KeyW">W</div>
+            <div class="k sp"></div>
+            <div class="k" data-c="KeyA">A</div>
+            <div class="k" data-c="KeyS">S</div>
+            <div class="k" data-c="KeyD">D</div>
+          </div>
+          <div class="pad">
+            <div class="k sp"></div>
+            <div class="k" data-c="ArrowUp">↑</div>
+            <div class="k sp"></div>
+            <div class="k" data-c="ArrowLeft">←</div>
+            <div class="k" data-c="ArrowDown">↓</div>
+            <div class="k" data-c="ArrowRight">→</div>
+          </div>
+          <div class="sliders">
+            <label for="armVelocity">Velocidad Arm</label>
+            <input type="range" id="armVelocity" min="100" max="255" value="180" name="armVelocity">
+            <label for="motVelocity">Velocidad Mot</label>
+            <input type="range" id="motVelocity" min="100" max="255" value="180" name="motVelocity">
+          </div>
+        </div>
+        <div class="zrow">
+          <div class="k" data-c="KeyZ" style="width:42px">Z</div><span>Pinza: <b id="gripCmd">abierta</b></span>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <video autoplay muted loop playsinline poster="backup-image.jpg" class="bg-video">
+    <source src="media/backVideo.mp4" type="video/mp4">
+  </video>
+</body>
+
+<script src="./coms.js"></script>
+<link rel="stylesheet" href="style.css">
+
+</html>
